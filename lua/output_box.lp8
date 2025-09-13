@@ -1,11 +1,8 @@
 output = {
     --      #############################\n#############################\n#############################
-    text = "you really need to take a    \nshit...",
-    box_size = (font_height+1)*output_lines + text_padding * 2
+    -- text = "you really need to take a    \nshit...",
+    text = "",
 }
-
-function output_update()
-end
 
 
 function output_draw()
@@ -17,6 +14,12 @@ function output_draw()
     -- output.text = "you farted too hard and shit \nyour pants! maybe next time  \ndon't push so hard."
     -- output.text = "running out of time! you need\nto find a way to reduce the  \npressure in your gut."
     -- output.text = "you try pushing the door open\nbut it won't budge."
-    print(output.text, 1+text_padding, input_box_y - output.box_size+1+text_padding, 7)
-    rect(0, input_box_y-output.box_size, 127, input_box_y)
+    if state == "menu" then
+        local box_size = (font_height+1)*menu_output_lines + text_padding * 2
+        print(output.text, 1+text_padding, input_box_y - box_size+1+text_padding, 7)
+    else
+        local box_size = (font_height+1)*game_output_lines + text_padding * 2
+        print(output.text, 1+text_padding, input_box_y - box_size+1+text_padding, 7)
+        rect(0, input_box_y-box_size, 127, input_box_y)
+    end
 end

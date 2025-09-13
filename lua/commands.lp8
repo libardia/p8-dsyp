@@ -1,17 +1,42 @@
-input_to_command = {}
+game_commands = {}
+menu_commands = {}
 
 
 -- Command functions
-function unknown(input)
-    --             ################### 19 chars (11 left, 1 is space, so 10 usable)
-    output.text = "i don't know how to" ..
-        fif(#input > 10, "\n", " ") ..
-        input
+function unknown(input, ismenu)
+    if ismenu then
+        output.text = "'" .. input .. "' is not recognized"
+    else
+        --             ################### 19 chars (11 left, 1 is space, so 10 usable)
+        output.text = "i don't know how to" ..
+            fif(#input > 10, "\n", " ") ..
+            input
+    end
 end
 
 
 function shit()
-    
+    -- lots of conditions here
+end
+
+
+function look_self()
+    --             ##############################\n##############################\n##############################
+    output.text = "in your pockets you find pills\nfor stomach relief. it says   \nthey take 45 seconds to work."
+end
+
+
+function back_to_menu()
+    state = "menu"
+    output.text = ""
+end
+
+
+function start()
+    state = "game"
+    --             ##############################\n##############################\n##############################
+    output.text = "you really need to take a     \nshit..."
+    timer.remaining_sec = game_time
 end
 
 
@@ -21,7 +46,49 @@ end
 
 
 -- Command definitions
-command_defs = {
+game_command_defs = {
+    {
+        func = back_to_menu,
+        cmds = {
+            "quit",
+            "exit",
+            "stop",
+        }
+    },
+    {
+        func = shit,
+        cmds = {
+            "shit",
+            "poop",
+            "dump",
+        }
+    },
+    {
+        func = look_self,
+        cmds = {
+            "look self",
+            "look at self",
+            "look pants",
+            "look at pants",
+            "look pockets",
+            "look at pockets",
+            "check pants",
+            "check pockets",
+            "check my pockets",
+            "check your pockets",
+        }
+    },
+}
+
+menu_command_defs = {
+    {
+        func = shit,
+        cmds = {
+            "shit",
+            "poop",
+            "dump",
+        }
+    },
     {
         func = quit,
         cmds = {
@@ -31,26 +98,40 @@ command_defs = {
         }
     },
     {
-
-    }
+        func = start,
+        cmds = {
+            "play",
+            "start",
+        }
+    },
 }
 
 -- Functionality
 function init_commands()
-    foreach(command_defs, function(def)
+    foreach(game_command_defs, function(def)
         foreach(def.cmds, function(cmd_str)
-            input_to_command[cmd_str] = def.func
+            game_commands[cmd_str] = def.func
+        end)
+    end)
+
+    foreach(menu_command_defs, function(def)
+        foreach(def.cmds, function(cmd_str)
+            menu_commands[cmd_str] = def.func
         end)
     end)
 end
 
 
 function parse(input)
-    func = input_to_command[input]
+    if state == "game" then
+        func = game_commands[input]
+    else
+        func = menu_commands[input]
+    end
     if func then
         func()
     else
-        unknown(input)
+        unknown(input, state == "menu")
     end
 end
 

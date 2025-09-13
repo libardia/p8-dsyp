@@ -1,5 +1,10 @@
 font_height = 5
 font_width = 3
 text_padding = 4
+line_length = 30
 
-output_lines = 3
+menu_output_lines = 1
+game_output_lines = 3
+
+game_time = 40
+fart_bonus = 60
