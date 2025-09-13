@@ -1,0 +1,43 @@
+input = {
+    text = '',
+
+    blink_speed = 15,
+    blink_timer = 0,
+    cursor_spr = 1,
+    cursor_state = true,
+}
+
+function text_update()
+    if btn(6) then
+        -- Cancel the built-in pause menu
+        poke(0x5f30, 1)
+    end
+    
+    while stat(30) do
+        local char, _ = stat(31)
+        if char == '\b' then
+            input.text = sub(input.text, 1, -2)
+        elseif char == '\r' or char == '\n' then
+            input.text = ''
+        else
+            input.text = input.text .. char
+        end
+    end
+
+    if input.blink_timer >= input.blink_speed then
+        input.cursor_state = not input.cursor_state
+        input.blink_timer = 0
+    end
+    input.blink_timer += 1
+end
+
+
+function text_draw()
+    local pad = 4
+    local curpad = 1
+    rect(0, 121 - pad * 2, 127, 127)
+    local cursor_x = print(input.text, 1 + pad, 122 - pad, 7)
+    if input.cursor_state then
+        line(cursor_x + curpad - 1, 122 - pad - 1, cursor_x + curpad - 1, 126 - pad + 1)
+    end
+end
