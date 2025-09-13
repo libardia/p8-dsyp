@@ -1,18 +1,39 @@
 gs = {
-    game_over = false,
+    lose = false,
 }
 
 function init_game()
+    printh("init game")
+
     --             ##############################\n##############################\n##############################
-    output.text = "you really need to take a     \nshit..."
-    timer.remaining_sec = game_time
-    gs.game_over = false
-end
+    output.text = "you really need to take a     \ncrap..."
 
+    init_timer()
 
-function update_game()
+    gs.lose = false
+    gs.timeout = false
+    gs.win = false
+    gs.pants = true
+    gs.pills = false
+    gs.door_open = false
+    gs.tried_to_open = false
+    gs.sitting = false    
 end
 
 
 function draw_game()
+end
+
+
+function game_over(message)
+    output.text = message
+    gs.lose = true
+    timer.pause = true
+end
+
+
+function win_game(message)
+    output.text = message
+    gs.win = true
+    timer.pause = true
 end

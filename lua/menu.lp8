@@ -1,10 +1,10 @@
 function draw_menu()
-    local title = {"\^w\^tdon't", "\^w\^tshit", "\^w\^tyour", "\^w\^tpico"}
+    local title = {"\^w\^tdon't", "\^w\^tcrap", "\^w\^tyour", "\^w\^tpico"}
     local off = 32
     for i=1,#title do
         print(title[i], off * (i-1), (font_height*2+1)*(i-1), 7)
     end
-    print("  a loving remake of\ndon't shit your pants", 20, 47, 7)
-    print("type 'play' to start", 10, 70)
-    print("goal: don't shit your pants")
+    print("  a loving remake of\ndon't s*!% your pants\n by cellar door games", 20, 47, 7)
+    print("   type 'play' to start", 10, 75)
+    print("goal: don't crap your pants")
 end

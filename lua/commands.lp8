@@ -3,8 +3,8 @@ menu_commands = {}
 
 
 -- Command functions
-function unknown(input, ismenu)
-    if ismenu then
+function unknown(input)
+    if state == "menu" then
         output.text = "'" .. input .. "' is not recognized"
     else
         --             ################### 19 chars (11 left, 1 is space, so 10 usable)
@@ -15,24 +15,126 @@ function unknown(input, ismenu)
 end
 
 
-function shit()
+function fart()
+    --     ##############################\n##############################\n##############################
+    msg = "you farted too hard and       \ncrapped your pants. maybe     \ndon't push so hard next time."
+    game_over(msg)
+end
+
+
+function fart_soft()
+    --             ##############################\n##############################\n##############################
+    output.text = "you farted lightly. relief!"
+    timer.remaining_sec += 60
+    timer.warn_20 = false
+    timer.warn_5 = false
+end
+
+
+function pills()
+    --             ##############################\n##############################\n##############################
+    output.text = "you eat the pills. hopefully  \nthey'll start working in time."
+    timer.pill_counting = true
+end
+
+
+function crap()
     if state == "menu" then
-        -- lose lmao
-        --             ##############################\n##############################\n##############################
+        --     ##############################\n##############################\n##############################
+        msg = "the game hasn't even started  \nyet but you just couldn't help\nyourself. you crap your pants."
         state = "game"
-        output.text = "the game hasn't even started  \nyet but you just couldn't help\nyourself. you shit your pants."
-        timer.remaining_sec = 0
-        timer.pause = true
-        gs.game_over = true
+        game_over(msg)
     else
-        -- lots of conditions
+        if gs.sitting then
+            if not gs.pants then
+                --     ##############################\n##############################\n##############################
+                msg = "you just crapped in the       \ntoilet! congratulations!"
+                win_game(msg)
+            else
+                --     ##############################\n##############################\n##############################
+                msg = "you forgot to take your pants \noff! you just crapped your    \npants. game over."
+                game_over(msg)
+            end
+        elseif not gs.pants then
+            --     ##############################\n##############################\n##############################
+            msg = "you just crapped on the floor!\nyou didn't crap your pants!   \ncongratulations!"
+            win_game(msg)
+        elseif gs.timeout then
+            --     ##############################\n##############################\n##############################
+            msg = "you couldn't hold it in any   \nmore. you just crapped your   \npants. game over."
+            game_over(msg)
+        else
+            --     ##############################\n##############################\n##############################
+            msg = "you just crapped your pants!  \ngame over."
+            game_over(msg)
+        end
     end
 end
 
 
 function look_self()
-    --             ##############################\n##############################\n##############################
-    output.text = "in your pockets you find pills\nfor stomach relief. it says   \nthey take 45 seconds to work."
+    if not gs.pills then
+        --             ##############################\n##############################\n##############################
+        output.text = "in your pockets you find pills\nfor stomach relief. it says   \nthey take 45 seconds to work."
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "your pockets are empty now.   \nhopefully the pills are       \nworking." 
+    end
+end
+
+
+function push_door()
+    if not gs.door_open then
+        --             ##############################\n##############################\n##############################
+        output.text = "you try to push the door open,\nbut it doesn't budge."
+        gs.tried_to_open = true
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "the door is already open."
+    end
+end
+
+
+function pull_door()
+    printh("pull door")
+    
+    if not gs.door_open then
+        if gs.tried_to_open then
+            --             ##############################\n##############################\n##############################
+            output.text = "oh, right..."
+        else
+            --             ##############################\n##############################\n##############################
+            output.text = "you pull open the door. good  \njob!"
+        end
+        gs.door_open = true
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "the door is already open."
+    end
+end
+
+
+function remove_pants()
+    if gs.pants then
+        --             ##############################\n##############################\n##############################
+        output.text = "you take off your pants."
+        gs.pants = false
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "your pants are already off."
+    end
+end
+
+
+function sit()
+    if gs.door_open then
+        --             ##############################\n##############################\n##############################
+        output.text = "you sit on the toilet."
+        gs.sitting = true
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "you try to sit on the toilet, \neven though the bathroom door \nis closed. it doesn't work."
+    end
 end
 
 
@@ -64,9 +166,9 @@ game_command_defs = {
         }
     },
     {
-        func = shit,
+        func = crap,
         cmds = {
-            "shit",
+            "crap",
             "poop",
             "dump",
         }
@@ -86,13 +188,76 @@ game_command_defs = {
             "check your pockets",
         }
     },
+    {
+        func = fart,
+        cmds = {
+            "fart",
+        },
+    },
+    {
+        func = fart_soft,
+        cmds = {
+            "fart softly",
+            "fart weakly",
+            "fart lightly",
+        },
+    },
+    {
+        func = pills,
+        cmds = {
+            "take pills",
+            "eat pills",
+            "take stomach pills",
+            "eat stomach pills",
+            "take stomach relief pills",
+            "eat stomach relief pills",
+        },
+    },
+    {
+        func = push_door,
+        cmds = {
+            "open door",
+            "open the door",
+            -- no one will ever use these unless they already know pushing doesn't work,
+            -- but there's no reason to disallow these commands.
+            "push door",
+            "push the door",
+            "push open the door",
+            "push open door",
+        }
+    },
+    {
+        func = pull_door,
+        cmds = {
+            "pull door",
+            "pull the door",
+            "pull open the door",
+            "pull open door",
+        }
+    },
+    {
+        func = remove_pants,
+        cmds = {
+            "take off pants",
+            "remove pants",
+        }
+    },
+    {
+        func = sit,
+        cmds = {
+            "sit on toilet",
+            "sit toilet",
+            "sit in bathroom",
+            "sit bathroom",
+        }
+    },
 }
 
 menu_command_defs = {
     {
-        func = shit,
+        func = crap,
         cmds = {
-            "shit",
+            "crap",
             "poop",
             "dump",
         }
@@ -114,7 +279,7 @@ menu_command_defs = {
     },
 }
 
--- Functionality
+-- invert map
 function init_commands()
     foreach(game_command_defs, function(def)
         foreach(def.cmds, function(cmd_str)
@@ -132,7 +297,7 @@ end
 
 function parse(input)
     if state == "game" then
-        if gs.game_over then
+        if gs.lose or gs.win then
             func = back_to_menu
         else
             func = game_commands[input]
@@ -144,7 +309,7 @@ function parse(input)
     if func then
         func()
     else
-        unknown(input, state == "menu")
+        unknown(input)
     end
 end
 

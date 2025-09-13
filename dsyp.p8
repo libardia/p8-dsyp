@@ -1,16 +1,16 @@
 pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
--- don't shit your pico
+-- don't crap your pico
 -- by tonyl
 #include lua/constants.lp8
 #include lua/util.lp8
-#include lua/commands.lp8
 #include lua/timer_bar.lp8
 #include lua/output_box.lp8
 #include lua/text_input.lp8
 #include lua/menu.lp8
 #include lua/game.lp8
+#include lua/commands.lp8
 #include lua/main.lp8
 __label__
 77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777

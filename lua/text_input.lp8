@@ -14,7 +14,7 @@ function text_update()
         -- Cancel the built-in pause menu
         poke(0x5f30, 1)
     end
-    
+
     while stat(30) do
         local char, _ = stat(31)
         if char == '\b' then

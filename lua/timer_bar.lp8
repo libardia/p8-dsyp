@@ -1,11 +1,18 @@
-timer = {
-    remaining_sec = 40,
-    frames_till_tick = 30,
-    pause = false,
+timer = {}
 
-    warn_20 = true,
-    warn_5 = true,
-}
+function init_timer()
+    timer.remaining_sec = game_time
+    timer.remaining_sec = game_time
+    timer.frames_till_tick = 30
+    timer.pause = false
+    
+    timer.warn_20 = true
+    timer.warn_5 = true
+
+    timer.pill_counting = false
+    timer.pill_time = 45
+    timer.pill_tick = 30
+end
 
 function timer_bar_update()
     -- Skip if the timer is paused
@@ -17,6 +24,14 @@ function timer_bar_update()
     end
     timer.frames_till_tick -= 1
 
+    if timer.pill_counting then
+        if timer.pill_tick <= 0 then
+            timer.pill_time -= 1
+            timer.pill_tick += 30
+        end
+        timer.pill_tick -= 1
+    end
+
     if timer.warn_20 and timer.remaining_sec < 20 then
         --             #############################\n#############################\n#############################
         output.text = "running out of time! you need\nto find a way to reduce the  \npressure in your gut."
@@ -27,21 +42,32 @@ function timer_bar_update()
         timer.warn_5 = false
     end
 
+    if timer.pill_time <= 0 then
+        --     ##############################\n##############################\n##############################
+        msg = "the pills worked! you didn't  \ncrap your pants! congrats!"
+        win_game(msg)
+    end
+
     if timer.remaining_sec <= 0 then
-        -- lose
+        gs.timeout = true
+        crap()
     end
 end
 
 
 function timer_bar_draw()
     rect(0, 0, 127, 1+font_height+text_padding*2)
-    if gs.game_over then
+    quitmsg = "quit"
+    if gs.lose then
         msg = "game over"
+        quitmsg = "enter: cont."
+    elseif gs.win then
+        msg = "you win!"
+        quitmsg = "enter: cont."
     else
         sec = timer.remaining_sec % 60
         msg = "time: " .. flr(timer.remaining_sec/60) .. ":" .. fif(sec < 10, "0"..sec, sec)
     end
     print(msg, 1+text_padding, 1+text_padding, 7)
-    quitmsg = "quit"
     print(quitmsg, 127-((font_width+1)*#quitmsg+text_padding)+1, 1+text_padding, 7)
 end
