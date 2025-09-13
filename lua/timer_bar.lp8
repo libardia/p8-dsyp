@@ -30,9 +30,10 @@ end
 
 
 function timer_bar_draw()
-    rect(0, 0, 127, 1+5+4+4)
+    rect(0, 0, 127, 1+font_height+text_padding*2)
     local sec = timer.remaining_sec % 60
     local msg = "time: " .. flr(timer.remaining_sec/60) .. ":" .. fif(sec < 10, "0"..sec, sec)
-    print(msg, 1+4, 1+4, 7)
-    print("quit", 127-((4+1)*4)+1, 1+4, 7)
+    print(msg, 1+text_padding, 1+text_padding, 7)
+    quitmsg = "quit"
+    print(quitmsg, 127-((font_width+1)*#quitmsg+text_padding)+1, 1+text_padding, 7)
 end

@@ -1,6 +1,7 @@
 output = {
     --      #############################\n#############################\n#############################
     text = "you really need to take a    \nshit...",
+    box_size = (font_height+1)*output_lines + text_padding * 2
 }
 
 function output_update()
@@ -9,7 +10,6 @@ end
 
 function output_draw()
     -- padding around text is 4 pix
-    local box_size = 5+1+5+1+5+1+4+4
     -- max characters per line: 30
     --             #############################\n#############################\n#############################
     -- output.text = "the game hasn't started yet  \nbut you just couldn't help   \nyourself. game over."
@@ -17,6 +17,6 @@ function output_draw()
     -- output.text = "you farted too hard and shit \nyour pants! maybe next time  \ndon't push so hard."
     -- output.text = "running out of time! you need\nto find a way to reduce the  \npressure in your gut."
     -- output.text = "you try pushing the door open\nbut it won't budge."
-    print(output.text, 1+4, 113-box_size+1+4, 7)
-    rect(0, 113-box_size, 127, 113)
+    print(output.text, 1+text_padding, input_box_y - output.box_size+1+text_padding, 7)
+    rect(0, input_box_y-output.box_size, 127, input_box_y)
 end

@@ -7,6 +7,8 @@ input = {
     cursor_state = true,
 }
 
+input_box_y = 128 - text_padding*2 - 2 - font_height
+
 function text_update()
     if btn(6) then
         -- Cancel the built-in pause menu
@@ -18,6 +20,7 @@ function text_update()
         if char == '\b' then
             input.text = sub(input.text, 1, -2)
         elseif char == '\r' or char == '\n' then
+            parse(input.text)
             input.text = ''
         else
             input.text = input.text .. char
@@ -34,9 +37,9 @@ end
 
 function text_draw()
     -- padding around text is 4 pix
-    rect(0, 113, 127, 127)
-    local cursor_x = print(input.text, 5, 118, 7)
+    rect(0, input_box_y, 127, 127)
+    local cursor_x = print(input.text, 1+text_padding, input_box_y+1+text_padding, 7)
     if input.cursor_state then
-        line(cursor_x, 117, cursor_x, 123)
+        line(cursor_x, input_box_y+text_padding, cursor_x, input_box_y+1+text_padding+font_height)
     end
 end

@@ -1,0 +1,56 @@
+input_to_command = {}
+
+
+-- Command functions
+function unknown(input)
+    --             ################### 19 chars (11 left, 1 is space, so 10 usable)
+    output.text = "i don't know how to" ..
+        fif(#input > 10, "\n", " ") ..
+        input
+end
+
+
+function shit()
+    
+end
+
+
+function quit()
+    stop()
+end
+
+
+-- Command definitions
+command_defs = {
+    {
+        func = quit,
+        cmds = {
+            "quit",
+            "exit",
+            "stop",
+        }
+    },
+    {
+
+    }
+}
+
+-- Functionality
+function init_commands()
+    foreach(command_defs, function(def)
+        foreach(def.cmds, function(cmd_str)
+            input_to_command[cmd_str] = def.func
+        end)
+    end)
+end
+
+
+function parse(input)
+    func = input_to_command[input]
+    if func then
+        func()
+    else
+        unknown(input)
+    end
+end
+

@@ -1,0 +1,5 @@
+font_height = 5
+font_width = 3
+text_padding = 4
+
+output_lines = 3

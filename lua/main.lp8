@@ -1,6 +1,8 @@
 function _init()
     -- Enable mouse and keyboard input
     poke(0x5f2d, 0b001)
+
+    init_commands()
 end
 
 
