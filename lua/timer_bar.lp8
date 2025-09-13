@@ -1,0 +1,9 @@
+function timer_bar_update()
+end
+
+
+function timer_bar_draw()
+    rect(0, 0, 127, 1+5+4+4)
+    --     ##############################
+    print("time: 0:40                quit", 1+4, 1+4, 7)
+end

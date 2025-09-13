@@ -33,11 +33,10 @@ end
 
 
 function text_draw()
-    local pad = 4
-    local curpad = 1
-    rect(0, 121 - pad * 2, 127, 127)
-    local cursor_x = print(input.text, 1 + pad, 122 - pad, 7)
+    -- padding around text is 4 pix
+    rect(0, 113, 127, 127)
+    local cursor_x = print(input.text, 5, 118, 7)
     if input.cursor_state then
-        line(cursor_x + curpad - 1, 122 - pad - 1, cursor_x + curpad - 1, 126 - pad + 1)
+        line(cursor_x, 117, cursor_x, 123)
     end
 end

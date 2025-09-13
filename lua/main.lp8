@@ -5,11 +5,15 @@ end
 
 
 function _update()
+    timer_bar_update()
     text_update()
+    output_update()
 end
 
 
 function _draw()
     cls()
+    timer_bar_draw()
     text_draw()
+    output_draw()
 end

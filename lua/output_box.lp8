@@ -1,0 +1,21 @@
+output = {
+    text = '',
+}
+
+function output_update()
+end
+
+
+function output_draw()
+    -- padding around text is 4 pix
+    local box_size = 5+1+5+1+5+4+4
+    -- max characters per line: 30
+    --             #############################\n#############################\n#############################
+    output.text = "the game hasn't started yet  \nbut you just couldn't help   \nyourself. game over."
+    -- output.text = "omg it's peeking its head! do\nsomething about the gas build\nup!"
+    -- output.text = "you farted too hard and shit \nyour pants! maybe next time  \ndon't push so hard."
+    -- output.text = "running out of time! you need\nto find a way to reduce the  \npressure in your gut."
+    -- output.text = "you try pushing the door open\nbut it won't budge."
+    print(output.text, 1+4, 113-box_size+1+4, 7)
+    rect(0, 113-box_size, 127, 113)
+end
