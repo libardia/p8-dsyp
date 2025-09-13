@@ -138,6 +138,13 @@ function sit()
 end
 
 
+function die()
+    --     ##############################\n##############################\n##############################
+    msg = "you died. game over."
+    game_over(msg)
+end
+
+
 function back_to_menu()
     state = "menu"
     output.text = ""
@@ -251,6 +258,14 @@ game_command_defs = {
             "sit bathroom",
         }
     },
+    {
+        func = die,
+        cmds = {
+            "die",
+            "kill self",
+            "suicide",
+        }
+    }
 }
 
 menu_command_defs = {
