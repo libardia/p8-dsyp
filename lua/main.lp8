@@ -1,11 +1,23 @@
 function _init()
+    cls()
 
+    -- Enable mouse and keyboard input
+    poke(0x5f2d, 0b001)
+   
+    curx = 0
 end
 
 
 function _update()
+    if btn(6) then
+        -- Cancel invoking the built-in pause menu
+        poke(0x5f30,1)
+    end
 end
 
 
 function _draw()
+    while stat(30) do
+        curx = print(stat(31), curx, 0)
+    end
 end
