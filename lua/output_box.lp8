@@ -1,19 +1,9 @@
 output = {
-    --      #############################\n#############################\n#############################
-    -- text = "you really need to take a    \nshit...",
     text = "",
 }
 
 
 function output_draw()
-    -- padding around text is 4 pix
-    -- max characters per line: 30
-    --             #############################\n#############################\n#############################
-    -- output.text = "the game hasn't started yet  \nbut you just couldn't help   \nyourself. game over."
-    -- output.text = "omg it's peeking its head! do\nsomething about the gas build\nup!"
-    -- output.text = "you farted too hard and shit \nyour pants! maybe next time  \ndon't push so hard."
-    -- output.text = "running out of time! you need\nto find a way to reduce the  \npressure in your gut."
-    -- output.text = "you try pushing the door open\nbut it won't budge."
     if state == "menu" then
         local box_size = (font_height+1)*menu_output_lines + text_padding * 2
         print(output.text, 1+text_padding, input_box_y - box_size+1+text_padding, 7)

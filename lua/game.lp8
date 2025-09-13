@@ -1,2 +1,18 @@
+gs = {
+    game_over = false,
+}
+
 function init_game()
+    --             ##############################\n##############################\n##############################
+    output.text = "you really need to take a     \nshit..."
+    timer.remaining_sec = game_time
+    gs.game_over = false
+end
+
+
+function update_game()
+end
+
+
+function draw_game()
 end

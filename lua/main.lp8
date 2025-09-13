@@ -2,6 +2,7 @@ state = "menu"
 
 
 function _init()
+    printh("BEGIN")
     -- Enable mouse and keyboard input
     poke(0x5f2d, 0b001)
 
@@ -10,8 +11,8 @@ end
 
 
 function _update()
-    if state == "menu" then
-    else
+    if state == "game" then
+        update_game()
         timer_bar_update()
     end
     text_update()
@@ -23,6 +24,7 @@ function _draw()
     if state == "menu" then
         draw_menu()
     else
+        draw_game()
         timer_bar_draw()
     end
     output_draw()

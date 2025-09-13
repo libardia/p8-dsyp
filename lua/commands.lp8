@@ -16,7 +16,17 @@ end
 
 
 function shit()
-    -- lots of conditions here
+    if state == "menu" then
+        -- lose lmao
+        --             ##############################\n##############################\n##############################
+        state = "game"
+        output.text = "the game hasn't even started  \nyet but you just couldn't help\nyourself. you shit your pants."
+        timer.remaining_sec = 0
+        timer.pause = true
+        gs.game_over = true
+    else
+        -- lots of conditions
+    end
 end
 
 
@@ -34,9 +44,7 @@ end
 
 function start()
     state = "game"
-    --             ##############################\n##############################\n##############################
-    output.text = "you really need to take a     \nshit..."
-    timer.remaining_sec = game_time
+    init_game()
 end
 
 
@@ -124,10 +132,15 @@ end
 
 function parse(input)
     if state == "game" then
-        func = game_commands[input]
+        if gs.game_over then
+            func = back_to_menu
+        else
+            func = game_commands[input]
+        end
     else
         func = menu_commands[input]
     end
+
     if func then
         func()
     else

@@ -1,12 +1,16 @@
 timer = {
     remaining_sec = 40,
     frames_till_tick = 30,
+    pause = false,
 
     warn_20 = true,
     warn_5 = true,
 }
 
 function timer_bar_update()
+    -- Skip if the timer is paused
+    if timer.pause then return end
+
     if timer.frames_till_tick <= 0 then
         timer.remaining_sec -= 1
         timer.frames_till_tick += 30
@@ -31,8 +35,12 @@ end
 
 function timer_bar_draw()
     rect(0, 0, 127, 1+font_height+text_padding*2)
-    local sec = timer.remaining_sec % 60
-    local msg = "time: " .. flr(timer.remaining_sec/60) .. ":" .. fif(sec < 10, "0"..sec, sec)
+    if gs.game_over then
+        msg = "game over"
+    else
+        sec = timer.remaining_sec % 60
+        msg = "time: " .. flr(timer.remaining_sec/60) .. ":" .. fif(sec < 10, "0"..sec, sec)
+    end
     print(msg, 1+text_padding, 1+text_padding, 7)
     quitmsg = "quit"
     print(quitmsg, 127-((font_width+1)*#quitmsg+text_padding)+1, 1+text_padding, 7)
