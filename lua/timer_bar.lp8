@@ -1,9 +1,38 @@
+timer = {
+    remaining_sec = 40,
+    frames_till_tick = 30,
+
+    warn_20 = true,
+    warn_5 = true,
+}
+
 function timer_bar_update()
+    if timer.frames_till_tick <= 0 then
+        timer.remaining_sec -= 1
+        timer.frames_till_tick += 30
+    end
+    timer.frames_till_tick -= 1
+
+    if timer.warn_20 and timer.remaining_sec < 20 then
+        --             #############################\n#############################\n#############################
+        output.text = "running out of time! you need\nto find a way to reduce the  \npressure in your gut."
+        timer.warn_20 = false
+    elseif timer.warn_5 and timer.remaining_sec < 5 then
+        --             #############################\n#############################\n#############################
+        output.text = "omg it's peeking its head! do\nsomething about the gas build\nup!"
+        timer.warn_5 = false
+    end
+
+    if timer.remaining_sec <= 0 then
+        -- lose
+    end
 end
 
 
 function timer_bar_draw()
     rect(0, 0, 127, 1+5+4+4)
-    --     ##############################
-    print("time: 0:40                quit", 1+4, 1+4, 7)
+    local sec = timer.remaining_sec % 60
+    local msg = "time: " .. flr(timer.remaining_sec/60) .. ":" .. fif(sec < 10, "0"..sec, sec)
+    print(msg, 1+4, 1+4, 7)
+    print("quit", 127-((4+1)*4)+1, 1+4, 7)
 end
