@@ -1,15 +1,23 @@
 output = {
     text = "",
+    size_in_menu = calc_size(menu_output_lines),
+    size_in_game = calc_size(game_output_lines),
 }
 
+output_box_top_y = input_box_y - output.size_in_game
 
 function output_draw()
+    local size = 0
     if state == "menu" then
-        local box_size = (font_height+1)*menu_output_lines + text_padding * 2
-        print(output.text, 1+text_padding, input_box_y - box_size+1+text_padding, 7)
+        size = output.size_in_menu
     else
-        local box_size = (font_height+1)*game_output_lines + text_padding * 2
-        print(output.text, 1+text_padding, input_box_y - box_size+1+text_padding, 7)
-        rect(0, input_box_y-box_size, 127, input_box_y)
+        size = output.size_in_game
+        rect(0, input_box_y - box_size, 127, input_box_y)
     end
+    print(output.text, 1 + text_padding, input_box_y - size + 1 + text_padding, 7)
+end
+
+
+function calc_size(lines)
+    return (font_height + 1) * lines + text_padding * 2
 end

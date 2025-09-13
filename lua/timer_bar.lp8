@@ -1,5 +1,7 @@
 timer = {}
 
+timer_bar_bottom_y = 1 + font_height + text_padding * 2
+
 function init_timer()
     timer.remaining_sec = game_time
     timer.remaining_sec = game_time
@@ -56,7 +58,7 @@ end
 
 
 function timer_bar_draw()
-    rect(0, 0, 127, 1+font_height+text_padding*2)
+    rect(0, 0, 127, timer_bar_bottom_y)
     quitmsg = "quit"
     if gs.lose then
         msg = "game over"
