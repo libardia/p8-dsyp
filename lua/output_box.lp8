@@ -1,3 +1,8 @@
+function calc_size(lines)
+    return (font_height + 1) * lines + text_padding * 2
+end
+
+
 output = {
     text = "",
     size_in_menu = calc_size(menu_output_lines),
@@ -5,6 +10,7 @@ output = {
 }
 
 output_box_top_y = input_box_y - output.size_in_game
+screen_end = output_box_top_y - 1
 
 function output_draw()
     local size = 0
@@ -12,12 +18,7 @@ function output_draw()
         size = output.size_in_menu
     else
         size = output.size_in_game
-        rect(0, input_box_y - box_size, 127, input_box_y)
+        rect(0, input_box_y - size, 127, input_box_y)
     end
     print(output.text, 1 + text_padding, input_box_y - size + 1 + text_padding, 7)
-end
-
-
-function calc_size(lines)
-    return (font_height + 1) * lines + text_padding * 2
 end

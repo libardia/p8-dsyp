@@ -1,6 +1,7 @@
 timer = {}
 
 timer_bar_bottom_y = 1 + font_height + text_padding * 2
+screen_begin = timer_bar_bottom_y + 1
 
 function init_timer()
     timer.remaining_sec = game_time

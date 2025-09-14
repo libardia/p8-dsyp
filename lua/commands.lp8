@@ -73,12 +73,22 @@ end
 
 
 function look_self()
-    if not gs.pills then
-        --             ##############################\n##############################\n##############################
-        output.text = "in your pockets you find pills\nfor stomach relief. it says   \nthey take 45 seconds to work."
+    if pants then
+        if not gs.pills then
+            --             ##############################\n##############################\n##############################
+            output.text = "in your pockets you find pills\nfor stomach relief. it says   \nthey take 45 seconds to work."
+        else
+            --             ##############################\n##############################\n##############################
+            output.text = "your pockets are empty now.   \nhopefully the pills are       \nworking." 
+        end
     else
-        --             ##############################\n##############################\n##############################
-        output.text = "your pockets are empty now.   \nhopefully the pills are       \nworking." 
+        if not gs.pills then
+            --             ##############################\n##############################\n##############################
+            output.text = "you still need to take a crap.\nyou think something was in    \nyour pants pocket though?"
+        else
+            --             ##############################\n##############################\n##############################
+            output.text = "you still need to take a crap,\nbut now you have no pants on. \ngood start." 
+        end
     end
 end
 
@@ -126,11 +136,24 @@ function remove_pants()
 end
 
 
+function restore_pants()
+    if gs.pants then
+        --             ##############################\n##############################\n##############################
+        output.text = "you already have pants on."
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "you put your pants back on."
+        gs.pants = true
+    end
+end
+
+
 function sit()
     if gs.door_open then
         --             ##############################\n##############################\n##############################
         output.text = "you sit on the toilet."
         gs.sitting = true
+        player_sit_position()
     else
         --             ##############################\n##############################\n##############################
         output.text = "you try to sit on the toilet, \neven though the bathroom door \nis closed. it doesn't work."
@@ -247,6 +270,15 @@ game_command_defs = {
         cmds = {
             "take off pants",
             "remove pants",
+        }
+    },
+    {
+        func = restore_pants,
+        cmds = {
+            "put on pants",
+            "put back pants",
+            "put pants back on",
+            "restore pants",
         }
     },
     {

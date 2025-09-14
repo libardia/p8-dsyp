@@ -2,6 +2,17 @@ gs = {
     lose = false,
 }
 
+player = {
+    standing = {start=6, w=2, h=5, pants={start=40, w=2, h=2, ox=0, oy=2}},
+    sitting = {start=10, w=3, h=5, pants={start=45, w=2, h=2, ox=1, oy=2}},
+}
+
+door = {
+    closed = {start=64, w=3, h=5, ox=0},
+    open = {start=86, w=4, h=6, ox=-1},
+}
+
+
 function init_game()
     printh("init game")
 
@@ -17,12 +28,27 @@ function init_game()
     gs.pills = false
     gs.door_open = false
     gs.tried_to_open = false
-    gs.sitting = false    
+    gs.sitting = false
+
+    player.x = 40
+    player.y = 40
+    player.sprite = player.standing
+
+    door.x = 80
+    door.y = 32
+end
+
+
+function player_sit_position()
+    player.x = 76
+    player.y = 36
 end
 
 
 function draw_game()
-    map(0,0,0,timer_bar_bottom_y+1,16,16)
+    map(0, 0, 0, screen_begin, 16, 9)
+    draw_door()
+    draw_player()
 end
 
 
@@ -37,4 +63,20 @@ function win_game(message)
     output.text = message
     gs.win = true
     timer.pause = true
+end
+
+
+function draw_player()
+    local sprite = fif(gs.sitting, player.sitting, player.standing)
+    spr(sprite.start, player.x, player.y, sprite.w, sprite.h)
+    if gs.pants then
+        local p = sprite.pants
+        spr(p.start, player.x + p.ox*8, player.y + p.oy*8, p.w, p.h)
+    end
+end
+
+
+function draw_door()
+    local sprite = fif(gs.door_open, door.open, door.closed)
+    spr(sprite.start, door.x + sprite.ox*8, door.y, sprite.w, sprite.h)
 end
