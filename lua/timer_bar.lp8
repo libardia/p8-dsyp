@@ -59,7 +59,7 @@ function timer_bar_update()
     if timer.pill_time <= 0 then
         --     ##############################\n##############################\n##############################
         msg = "the pills worked! you didn't  \ncrap your pants! congrats!"
-        awards[5].done = true
+        new_award(5)
         win_game(msg)
     end
 

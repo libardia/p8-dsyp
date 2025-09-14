@@ -1,3 +1,4 @@
+awards_waiting = {}
 awards = {
     { -- 1
         name="thinking inside the box",
@@ -41,14 +42,69 @@ awards = {
     },
 }
 
+awards_state = {}
+total_awards = 0
+
+function new_award(num)
+    if not awards[num].done then
+        add(awards_waiting, num)
+        total_awards += 1
+    end
+end
+
 
 function check_final()
-    for i=1,#awards-1 do
-        if not awards[i].done then
-            return false
-        end
+    printh("check for final award: " .. total_awards)
+    if total_awards == 7 then
+        new_award(8)
     end
-    return true
+end
+
+
+function init_awards()
+    awards_state.animation = cocreate(awards_animation)
+    awards_state.cancel_animation = false
+end
+
+
+function awards_animating()
+    return costatus(awards_state.animation) != "dead"
+end
+
+
+function anim_cancel()
+    if awards_animating() then
+        awards_state.cancel_animation = true
+        coresume(awards_state.animation)
+    end
+end
+
+
+function awards_animation()
+    local pause_time = 30
+    local get_sfx = 4
+
+    printh(#awards_waiting)
+    foreach(awards_waiting, function(aw)
+        for i=1,pause_time do
+            if not awards_state.cancel_animation then
+                yield()
+            end
+        end
+        if not awards_state.cancel_animation then
+            sfx(get_sfx)
+        end
+        awards[aw].done = true
+    end)
+
+    awards_waiting = {}
+end
+
+
+function update_awards()
+    if awards_animating() then
+        coresume(awards_state.animation)
+    end
 end
 
 
@@ -57,7 +113,7 @@ function draw_awards()
     local desc_offset = (font_width + 1) * 2
     local y = 0
     foreach(awards, function(aw)
-        print(aw.name, 0, y, 7)
+        print(aw.name, 0, y, fif(aw.done, 7, 5))
         y += font_height + 1
         if aw.done then
             spr(17, 2, y)

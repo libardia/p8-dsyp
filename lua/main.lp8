@@ -14,6 +14,8 @@ end
 function _update()
     if state == "game" then
         timer_bar_update()
+    elseif state == "awards" then
+        update_awards()
     end
     text_update()
 end

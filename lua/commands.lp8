@@ -54,36 +54,36 @@ function crap()
         msg = "the game hasn't even started  \nyet but you just couldn't help\nyourself. you crap your pants."
         state = "game"
         init_game()
-        awards[6].done = true
+        new_award(6)
         game_over(msg)
     else
         if gs.sitting then
             if not gs.pants then
                 --     ##############################\n##############################\n##############################
                 msg = "you managed to crap in the    \ntoilet! congratulations!"
-                awards[1].done = true
+                new_award(1)
                 win_game(msg)
             else
                 --     ##############################\n##############################\n##############################
                 msg = "you forgot to take your pants \noff! you just crapped your    \npants. game over."
-                awards[4].done = true
+                new_award(4)
                 game_over(msg)
             end
         elseif not gs.pants then
             --     ##############################\n##############################\n##############################
             msg = "you just crapped on the floor!\nyou didn't crap your pants!   \ncongratulations!"
             poop.visible = true
-            awards[2].done = true
+            new_award(2)
             win_game(msg)
         elseif gs.timeout then
             --     ##############################\n##############################\n##############################
             msg = "you couldn't hold it in any   \nmore. you just crapped your   \npants. game over."
-            awards[7].done = true
+            new_award(7)
             game_over(msg)
         else
             --     ##############################\n##############################\n##############################
             msg = "you just crapped your pants!  \ngame over."
-            awards[3].done = true
+            new_award(3)
             game_over(msg)
         end
     end
@@ -239,7 +239,8 @@ end
 
 function go_to_awards()
     state = "awards"
-    awards[8].done = check_final()
+    check_final()
+    init_awards()
     output.text = ""
 end
 
@@ -469,7 +470,8 @@ function parse(input)
         end
     elseif state == "menu" then
         func = menu_commands[input]
-    else
+    elseif state == "awards" then
+        anim_cancel()
         func = back_to_menu
     end
 
