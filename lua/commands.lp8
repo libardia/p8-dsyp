@@ -58,6 +58,7 @@ function crap()
         elseif not gs.pants then
             --     ##############################\n##############################\n##############################
             msg = "you just crapped on the floor!\nyou didn't crap your pants!   \ncongratulations!"
+            poop.visible = true
             win_game(msg)
         elseif gs.timeout then
             --     ##############################\n##############################\n##############################
@@ -73,7 +74,7 @@ end
 
 
 function look_self()
-    if pants then
+    if gs.pants then
         if not gs.pills then
             --             ##############################\n##############################\n##############################
             output.text = "in your pockets you find pills\nfor stomach relief. it says   \nthey take 45 seconds to work."
@@ -89,6 +90,40 @@ function look_self()
             --             ##############################\n##############################\n##############################
             output.text = "you still need to take a crap,\nbut now you have no pants on. \ngood start." 
         end
+    end
+end
+
+
+function look_floor()
+    --             ##############################\n##############################\n##############################
+    output.text = "the floor."
+end
+
+
+function look_door()
+    if gs.door_open then
+        --             ##############################\n##############################\n##############################
+        output.text = "the bathroom door."
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "a door. you're pretty sure it \ngoes to the bathroom."
+    end
+end
+
+
+function look_walls()
+    --             ##############################\n##############################\n##############################
+    output.text = "the walls of your house."
+end
+
+
+function look_toilet()
+    if gs.door_open then
+        --             ##############################\n##############################\n##############################
+        output.text = "it's right there, waiting to  \nbe used."
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "you don't see one, but you're \npretty sure that door goes to \nthe bathroom."
     end
 end
 
@@ -219,6 +254,45 @@ game_command_defs = {
         }
     },
     {
+        func = look_floor,
+        cmds = {
+            "look floor",
+            "look at floor",
+            "look ground",
+            "look at ground",
+        }
+    },
+    {
+        func = look_door,
+        cmds = {
+            "look door",
+            "look at door",
+        }
+    },
+    {
+        func = look_walls,
+        cmds = {
+            "look walls",
+            "look at walls",
+            "look wall",
+            "look at wall",
+        }
+    },
+    {
+        func = look_toilet,
+        cmds = {
+            "look toilet",
+            "look at toilet",
+            "look for toilet",
+            "look bathroom",
+            "look at bathroom",
+            "look for bathroom",
+            "look restroom",
+            "look at restroom",
+            "look for restroom",
+        }
+    },
+    {
         func = fart,
         cmds = {
             "fart",
@@ -285,6 +359,7 @@ game_command_defs = {
         func = sit,
         cmds = {
             "sit on toilet",
+            "sit on the toilet",
             "sit toilet",
             "sit in bathroom",
             "sit bathroom",

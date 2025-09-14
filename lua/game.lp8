@@ -13,6 +13,13 @@ door = {
 }
 
 
+poop = {
+    sprite = 16,
+    x = 30,
+    y = 74,
+}
+
+
 function init_game()
     printh("init game")
 
@@ -36,6 +43,8 @@ function init_game()
 
     door.x = 80
     door.y = 32
+
+    poop.visible = false
 end
 
 
@@ -49,6 +58,10 @@ function draw_game()
     map(0, 0, 0, screen_begin, 16, 9)
     draw_door()
     draw_player()
+
+    if poop.visible then
+        spr(poop.sprite, poop.x, poop.y)
+    end
 end
 
 
