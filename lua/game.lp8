@@ -3,8 +3,8 @@ gs = {
 }
 
 player = {
-    standing = {start=6, w=2, h=5, pants={start=40, w=2, h=2, ox=0, oy=2}},
-    sitting = {start=10, w=3, h=5, pants={start=45, w=2, h=2, ox=1, oy=2}},
+    standing = {start=6, w=2, h=5, pants={start=40, w=2, h=2, ox=0, oy=2}, fox=5, foy=2},
+    sitting = {start=10, w=3, h=5, pants={start=45, w=2, h=2, ox=1, oy=2}, fox=13, foy=2},
 }
 
 door = {
@@ -85,6 +85,16 @@ function draw_player()
     if gs.pants then
         local p = sprite.pants
         spr(p.start, player.x + p.ox*8, player.y + p.oy*8, p.w, p.h)
+    end
+    if gs.win then
+        pset(player.x + sprite.fox + 3, player.y + sprite.foy + 5, 1)
+        pset(player.x + sprite.fox + 4, player.y + sprite.foy + 5, 1)
+    elseif gs.lose then
+        pset(player.x + sprite.fox + 1, player.y + sprite.foy + 2, 1)
+        pset(player.x + sprite.fox + 5, player.y + sprite.foy + 2, 1)
+
+        pset(player.x + sprite.fox + 2, player.y + sprite.foy + 5, 1)
+        pset(player.x + sprite.fox + 4, player.y + sprite.foy + 5, 1)
     end
 end
 

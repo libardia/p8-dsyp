@@ -59,7 +59,7 @@ end
 
 
 function timer_bar_draw()
-    rect(0, 0, 127, timer_bar_bottom_y)
+    rect(0, 0, 127, timer_bar_bottom_y, 7)
     quitmsg = "quit"
     if gs.lose then
         msg = "game over"
