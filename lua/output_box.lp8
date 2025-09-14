@@ -14,7 +14,7 @@ screen_end = output_box_top_y - 1
 
 function output_draw()
     local size = 0
-    if state == "menu" then
+    if state != "game" then
         size = output.size_in_menu
     else
         size = output.size_in_game

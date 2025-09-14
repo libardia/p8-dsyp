@@ -1,0 +1,71 @@
+awards = {
+    { -- 1
+        name="thinking inside the box",
+        desc="i'm fully potty trained!",
+        done=false,
+    },
+    { -- 2
+        name="mr. efficient",
+        desc="that was technically the goal.",
+        done=false,
+    },
+    { -- 3
+        name="crapping 101",
+        desc="of course you had to try.",
+        done=false,
+    },
+    { -- 4
+        name="so close, yet so far...",
+        desc="pants. always in your way.",
+        done=false,
+    },
+    { -- 5
+        name="holding off the inevitable",
+        desc="did those work before...?",
+        done=false,
+    },
+    { -- 6
+        name="crapping at the starting gun",
+        desc="just couldn't resist, huh?",
+        done=false,
+    },
+    { -- 7
+        name="slow typer",
+        desc="if only you had more time...",
+        done=false,
+    },
+    { -- 8
+        name="you are the crap king!",
+        desc="all of 'em! no crown, sorry.",
+        done=false,
+    },
+}
+
+
+function check_final()
+    for i=1,#awards-1 do
+        if not awards[i].done then
+            return false
+        end
+    end
+    return true
+end
+
+
+function draw_awards()
+    local spacing = 1
+    local desc_offset = (font_width + 1) * 2
+    local y = 0
+    foreach(awards, function(aw)
+        print(aw.name, 0, y, 7)
+        y += font_height + 1
+        if aw.done then
+            spr(17, 2, y)
+            print(aw.desc, desc_offset, y, 9)
+        else
+            print("???", desc_offset, y, 5)
+        end
+        y += font_height + 1 + spacing
+    end)
+    print("            enter to continue...", 0, y, 6)
+end

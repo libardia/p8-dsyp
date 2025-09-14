@@ -23,6 +23,8 @@ function _draw()
     cls()
     if state == "menu" then
         draw_menu()
+    elseif state == "awards" then
+        draw_awards()
     else
         draw_game()
         timer_bar_draw()

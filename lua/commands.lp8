@@ -4,7 +4,7 @@ menu_commands = {}
 
 -- Command functions
 function unknown(input)
-    if state == "menu" then
+    if state != "game" then
         output.text = "'" .. input .. "' is not recognized"
     else
         --             ################### 19 chars (11 left, 1 is space, so 10 usable)
@@ -23,50 +23,66 @@ end
 
 
 function fart_soft()
-    --             ##############################\n##############################\n##############################
-    output.text = "you farted lightly. relief!"
-    timer.remaining_sec += 60
-    timer.warn_20 = false
-    timer.warn_5 = false
+    if not gs.farted then
+        --             ##############################\n##############################\n##############################
+        output.text = "you farted lightly. relief!"
+        timer.remaining_sec += 60
+        gs.farted = true
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "you already farted! doing it  \nagain is far too risky."
+    end
 end
 
 
 function pills()
-    --             ##############################\n##############################\n##############################
-    output.text = "you eat the pills. hopefully  \nthey'll start working in time."
-    timer.pill_counting = true
+    if not gs.pills then
+        --             ##############################\n##############################\n##############################
+        output.text = "you eat the pills. hopefully  \nthey'll start working in time."
+        timer.pill_counting = true
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "you don't have any more pills!"
+    end
 end
 
 
 function crap()
-    if state == "menu" then
+    if state != "game" then
         --     ##############################\n##############################\n##############################
         msg = "the game hasn't even started  \nyet but you just couldn't help\nyourself. you crap your pants."
         state = "game"
+        init_game()
+        awards[6].done = true
         game_over(msg)
     else
         if gs.sitting then
             if not gs.pants then
                 --     ##############################\n##############################\n##############################
-                msg = "you just crapped in the       \ntoilet! congratulations!"
+                msg = "you managed to crap in the    \ntoilet! congratulations!"
+                awards[1].done = true
                 win_game(msg)
             else
                 --     ##############################\n##############################\n##############################
                 msg = "you forgot to take your pants \noff! you just crapped your    \npants. game over."
+                awards[4].done = true
                 game_over(msg)
             end
         elseif not gs.pants then
             --     ##############################\n##############################\n##############################
             msg = "you just crapped on the floor!\nyou didn't crap your pants!   \ncongratulations!"
             poop.visible = true
+            awards[2].done = true
             win_game(msg)
         elseif gs.timeout then
             --     ##############################\n##############################\n##############################
             msg = "you couldn't hold it in any   \nmore. you just crapped your   \npants. game over."
+            awards[7].done = true
             game_over(msg)
         else
             --     ##############################\n##############################\n##############################
             msg = "you just crapped your pants!  \ngame over."
+            awards[3].done = true
             game_over(msg)
         end
     end
@@ -161,9 +177,14 @@ end
 
 function remove_pants()
     if gs.pants then
-        --             ##############################\n##############################\n##############################
-        output.text = "you take off your pants."
-        gs.pants = false
+        if gs.sitting then
+            --             ##############################\n##############################\n##############################
+            output.text = "you need to stand up first."
+        else
+            --             ##############################\n##############################\n##############################
+            output.text = "you take off your pants."
+            gs.pants = false
+        end
     else
         --             ##############################\n##############################\n##############################
         output.text = "your pants are already off."
@@ -196,15 +217,28 @@ function sit()
 end
 
 
-function die()
-    --     ##############################\n##############################\n##############################
-    msg = "you died. game over."
-    game_over(msg)
+function stand_up()
+    if gs.door_open and gs.sitting then
+        --             ##############################\n##############################\n##############################
+        output.text = "you stand up from the toilet."
+        gs.sitting = false
+        player_stand_position()
+    else
+        --             ##############################\n##############################\n##############################
+        output.text = "you're already standing."
+    end
 end
 
 
 function back_to_menu()
     state = "menu"
+    output.text = ""
+end
+
+
+function go_to_awards()
+    state = "awards"
+    awards[8].done = check_final()
     output.text = ""
 end
 
@@ -366,13 +400,15 @@ game_command_defs = {
         }
     },
     {
-        func = die,
+        func = stand_up,
         cmds = {
-            "die",
-            "kill self",
-            "suicide",
+            "stand",
+            "stand up",
+            "get off",
+            "get off toilet",
+            "get up",
         }
-    }
+    },
 }
 
 menu_command_defs = {
@@ -399,6 +435,12 @@ menu_command_defs = {
             "start",
         }
     },
+    {
+        func = go_to_awards,
+        cmds = {
+            "awards",
+        }
+    }
 }
 
 -- invert map
@@ -420,12 +462,14 @@ end
 function parse(input)
     if state == "game" then
         if gs.lose or gs.win then
-            func = back_to_menu
+            func = go_to_awards
         else
             func = game_commands[input]
         end
-    else
+    elseif state == "menu" then
         func = menu_commands[input]
+    else
+        func = back_to_menu
     end
 
     if func then
