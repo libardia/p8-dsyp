@@ -15,14 +15,24 @@ function init_timer()
     timer.pill_counting = false
     timer.pill_time = 45
     timer.pill_tick = 30
+
+    timer.start_tick = true
+    timer.tick_sfx = 2
+    timer.tock_sfx = 3
 end
 
 function timer_bar_update()
     -- Skip if the timer is paused
     if timer.pause then return end
 
+    if timer.start_tick then
+        timer.start_tick = false
+        sfx(timer.tick_sfx)
+    end
+
     if timer.frames_till_tick <= 0 then
         timer.remaining_sec -= 1
+        sfx(fif(timer.remaining_sec % 2 == 0, timer.tick_sfx, timer.tock_sfx))
         timer.frames_till_tick += 30
     end
     timer.frames_till_tick -= 1
