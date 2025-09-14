@@ -39,6 +39,7 @@ function pills()
     if not gs.pills then
         --             ##############################\n##############################\n##############################
         output.text = "you eat the pills. hopefully  \nthey'll start working in time."
+        gs.pills = true
         timer.pill_counting = true
     else
         --             ##############################\n##############################\n##############################
