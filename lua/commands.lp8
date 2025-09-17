@@ -16,9 +16,29 @@ end
 
 
 function fart()
-    --     ##############################\n##############################\n##############################
-    msg = "you farted too hard and       \ncrapped your pants. maybe     \ndon't push so hard next time."
-    game_over(msg)
+    if gs.sitting then
+        if not gs.pants then
+            --     ##############################\n##############################\n##############################
+            msg = "you farted too hard and       \ncrapped! luckily you were on  \nthe toilet. congratulations!"
+            new_award(1)
+            win_game(msg)
+        else
+            --     ##############################\n##############################\n##############################
+            msg = "you farted too hard and       \ncrapped, but your pants were  \nstill on. game over."
+            new_award(4)
+            game_over(msg)
+        end
+    elseif not gs.pants then
+        --     ##############################\n##############################\n##############################
+        msg = "you farted too hard and       \ncrapped! luckily your pants   \nwere off. congratulations!"
+        poop.visible = true
+        new_award(2)
+        win_game(msg)
+    else
+        --     ##############################\n##############################\n##############################
+        msg = "you farted too hard and       \ncrapped your pants. maybe     \ndon't push so hard next time."
+        game_over(msg)
+    end
 end
 
 
