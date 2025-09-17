@@ -4,6 +4,16 @@ state = "menu"
 function _init()
     printh("=== BEGIN ===")
 
+    -- Init cartdata
+    cartdata("libardia_dont_crap_your_pico_v1")
+    for i=1,8 do
+        awd = dget(i) != 0
+        printh("cartdata[" .. i .. "] is " .. tostring(awd))
+        awards[i].done = awd
+        if awd then total_awards += 1 end
+    end
+    printh("Total awards = " .. total_awards)
+
     -- Enable mouse and keyboard input
     poke(0x5f2d, 0b001)
 

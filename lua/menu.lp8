@@ -8,5 +8,6 @@ function draw_menu()
     print("made for pvgd pico jam 2025", 10, 65, 5)
     print("type 'play' to start", 10, 75, 7)
     print("type 'awards' for awards")
+    print("type 'reset' to reset awards")
     print("goal: don't crap your pants")
 end

@@ -49,6 +49,7 @@ function new_award(num)
     if not awards[num].done then
         add(awards_waiting, num)
         total_awards += 1
+        dset(num, 1)
     end
 end
 

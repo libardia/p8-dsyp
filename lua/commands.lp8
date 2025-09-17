@@ -245,6 +245,17 @@ function go_to_awards()
 end
 
 
+function reset_awards()
+    printh("reset awards...")
+    for i=1,8 do
+        awards[i].done = false
+        total_awards = 0
+        dset(i, 0)
+    end
+    output.text = "awards reset"
+end
+
+
 function start()
     state = "game"
     init_game()
@@ -442,6 +453,12 @@ menu_command_defs = {
         cmds = {
             "awards",
         }
+    },
+    {
+        func = reset_awards,
+        cmds = {
+            "reset"
+        },
     }
 }
 
